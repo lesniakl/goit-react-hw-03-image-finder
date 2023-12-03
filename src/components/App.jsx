@@ -27,6 +27,7 @@ export default class App extends Component {
         id: hit.id,
         webformatURL: hit.webformatURL,
         largeImageURL: hit.largeImageURL,
+        tags: hit.tags,
       }));
       this.setState({ images: imagesFound });
     } catch (error) {
@@ -40,7 +41,7 @@ export default class App extends Component {
     return (
       <>
         <Searchbar onSearch={this.handleSubmit} />
-        <ImageGallery />
+        <ImageGallery images={this.state.images} />
       </>
     );
   }
