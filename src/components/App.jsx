@@ -66,7 +66,10 @@ export default class App extends Component {
     return (
       <>
         <Searchbar onSearch={this.handleSubmit} />
-        <ImageGallery images={this.state.images} />
+        <ImageGallery
+          images={this.state.images}
+          isLoading={this.state.isLoading}
+        />
         {this.state.images.length > 0 && <Button onMore={this.handleMore} />}
       </>
     );
