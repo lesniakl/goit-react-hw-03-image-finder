@@ -6,7 +6,7 @@ export default class ImageGallery extends Component {
     return (
       <ul className="gallery">
         {this.props.images.map(image => (
-          <ImageGalleryItem data={image} />
+          <ImageGalleryItem key={image.id} data={image} />
         ))}
       </ul>
     );

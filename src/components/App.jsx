@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
+import Button from './Button/Button';
 
 const API_KEY = '39514162-fa9dcb7e2d6f74dc9ac05415a';
 const BASE_URL = 'https://pixabay.com/api/';
@@ -18,7 +19,7 @@ export default class App extends Component {
     e.preventDefault();
     const form = e.currentTarget;
     const search = form.elements.search.value;
-    const query = `${BASE_URL}?q=${search}&page=${this.state.currentPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`;
+    const query = `${BASE_URL}?q=${search}&page=${this.state.currentPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=3`;
     this.setState({ currentSearch: search, isLoading: true });
     try {
       const response = await fetch(query);
@@ -37,11 +38,36 @@ export default class App extends Component {
     }
   };
 
+  handleMore = async e => {
+    const newPage = this.state.currentPage + 1;
+    this.setState({ currentPage: newPage });
+    const query = `${BASE_URL}?q=${this.state.currentSearch}&page=${newPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=3`;
+    this.setState({ isLoading: true });
+    try {
+      const response = await fetch(query);
+      const data = await response.json();
+      const imagesFound = data.hits.map(hit => ({
+        id: hit.id,
+        webformatURL: hit.webformatURL,
+        largeImageURL: hit.largeImageURL,
+        tags: hit.tags,
+      }));
+      this.setState(prevState => {
+        return { images: [...prevState.images, ...imagesFound] };
+      });
+    } catch (error) {
+      this.setState({ error: error.message });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
   render() {
     return (
       <>
         <Searchbar onSearch={this.handleSubmit} />
         <ImageGallery images={this.state.images} />
+        {this.state.images.length > 0 && <Button onMore={this.handleMore} />}
       </>
     );
   }
