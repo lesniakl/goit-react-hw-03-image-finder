@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
+import Loader from './Loader/Loader';
 
 const API_KEY = '39514162-fa9dcb7e2d6f74dc9ac05415a';
 const BASE_URL = 'https://pixabay.com/api/';
@@ -66,10 +67,8 @@ export default class App extends Component {
     return (
       <>
         <Searchbar onSearch={this.handleSubmit} />
-        <ImageGallery
-          images={this.state.images}
-          isLoading={this.state.isLoading}
-        />
+        <ImageGallery images={this.state.images} />
+        {this.state.isLoading && <Loader />}
         {this.state.images.length > 0 && <Button onMore={this.handleMore} />}
       </>
     );
