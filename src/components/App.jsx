@@ -12,7 +12,6 @@ export default class App extends Component {
   state = {
     images: [],
     isLoading: false,
-    error: '',
     currentSearch: '',
     currentPage: 1,
   };
@@ -21,7 +20,7 @@ export default class App extends Component {
     e.preventDefault();
     const form = e.currentTarget;
     const search = form.elements.search.value;
-    const query = `${BASE_URL}?q=${search}&page=${this.state.currentPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=3`;
+    const query = `${BASE_URL}?q=${search}&page=${this.state.currentPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`;
     this.setState({ currentSearch: search, isLoading: true });
     try {
       const response = await fetch(query);
@@ -34,7 +33,7 @@ export default class App extends Component {
       }));
       this.setState({ images: imagesFound });
     } catch (error) {
-      this.setState({ error: error.message });
+      alert('Something went wrong, try again or reload the page.');
     } finally {
       this.setState({ isLoading: false });
     }
@@ -43,7 +42,7 @@ export default class App extends Component {
   handleMore = async e => {
     const newPage = this.state.currentPage + 1;
     this.setState({ currentPage: newPage });
-    const query = `${BASE_URL}?q=${this.state.currentSearch}&page=${newPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=3`;
+    const query = `${BASE_URL}?q=${this.state.currentSearch}&page=${newPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`;
     this.setState({ isLoading: true });
     try {
       const response = await fetch(query);
@@ -58,7 +57,7 @@ export default class App extends Component {
         return { images: [...prevState.images, ...imagesFound] };
       });
     } catch (error) {
-      this.setState({ error: error.message });
+      alert('Something went wrong, try again or reload the page.');
     } finally {
       this.setState({ isLoading: false });
     }
