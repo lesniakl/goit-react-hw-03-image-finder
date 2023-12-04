@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import css from './ImageGalleryItem.module.css';
 import Modal from 'components/Modal/Modal';
+import PropTypes from 'prop-types';
 
 export default class ImageGalleryItem extends Component {
   render() {
@@ -9,7 +10,7 @@ export default class ImageGalleryItem extends Component {
         {this.props.isModalOpen && (
           <Modal
             url={this.props.data.largeImageURL}
-            alt={this.props.tags}
+            alt={this.props.data.tags}
             onModal={this.props.onModal}
           />
         )}
@@ -23,3 +24,9 @@ export default class ImageGalleryItem extends Component {
     );
   }
 }
+
+ImageGalleryItem.propTypes = {
+  data: PropTypes.object.isRequired,
+  onModal: PropTypes.func.isRequired,
+  isModalOpen: PropTypes.bool.isRequired,
+};

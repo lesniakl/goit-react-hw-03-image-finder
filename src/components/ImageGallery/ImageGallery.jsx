@@ -1,6 +1,7 @@
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import React, { Component } from 'react';
 import css from './ImageGallery.module.css';
+import PropTypes from 'prop-types';
 
 export default class ImageGallery extends Component {
   render() {
@@ -18,3 +19,9 @@ export default class ImageGallery extends Component {
     );
   }
 }
+
+ImageGallery.propTypes = {
+  images: PropTypes.array.isRequired,
+  onModal: PropTypes.func.isRequired,
+  isModalOpen: PropTypes.bool.isRequired,
+};
