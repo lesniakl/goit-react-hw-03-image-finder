@@ -14,6 +14,7 @@ export default class App extends Component {
     isLoading: false,
     currentSearch: '',
     currentPage: 1,
+    modalOpen: false,
   };
 
   handleSubmit = async e => {
@@ -63,11 +64,23 @@ export default class App extends Component {
     }
   };
 
+  handleModal = e => {
+    this.setState(prevState => {
+      return {
+        modalOpen: !prevState.modalOpen,
+      };
+    });
+  };
+
   render() {
     return (
       <div className={css.App}>
         <Searchbar onSearch={this.handleSubmit} />
-        <ImageGallery images={this.state.images} />
+        <ImageGallery
+          images={this.state.images}
+          onModal={this.handleModal}
+          isModalOpen={this.state.modalOpen}
+        />
         {this.state.isLoading && <Loader />}
         {this.state.images.length > 0 && <Button onMore={this.handleMore} />}
       </div>
