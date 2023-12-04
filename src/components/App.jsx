@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import css from './App.module.css';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
@@ -65,12 +66,12 @@ export default class App extends Component {
 
   render() {
     return (
-      <>
+      <div className={css.App}>
         <Searchbar onSearch={this.handleSubmit} />
         <ImageGallery images={this.state.images} />
         {this.state.isLoading && <Loader />}
         {this.state.images.length > 0 && <Button onMore={this.handleMore} />}
-      </>
+      </div>
     );
   }
 }
