@@ -21,8 +21,8 @@ export default class App extends Component {
     e.preventDefault();
     const form = e.currentTarget;
     const search = form.elements.search.value;
-    const query = `${BASE_URL}?q=${search}&page=${this.state.currentPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`;
-    this.setState({ currentSearch: search, isLoading: true });
+    const query = `${BASE_URL}?q=${search}&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`;
+    this.setState({ currentPage: 1, currentSearch: search, isLoading: true });
     try {
       const response = await fetch(query);
       const data = await response.json();
@@ -42,9 +42,8 @@ export default class App extends Component {
 
   handleMore = async e => {
     const newPage = this.state.currentPage + 1;
-    this.setState({ currentPage: newPage });
     const query = `${BASE_URL}?q=${this.state.currentSearch}&page=${newPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`;
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, currentPage: newPage });
     try {
       const response = await fetch(query);
       const data = await response.json();
