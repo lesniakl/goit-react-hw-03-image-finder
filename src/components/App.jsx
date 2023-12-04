@@ -4,6 +4,7 @@ import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import Loader from './Loader/Loader';
+import Modal from './Modal/Modal';
 
 const API_KEY = '39514162-fa9dcb7e2d6f74dc9ac05415a';
 const BASE_URL = 'https://pixabay.com/api/';
@@ -15,6 +16,7 @@ export default class App extends Component {
     currentSearch: '',
     currentPage: 1,
     modalOpen: false,
+    selected: {},
   };
 
   handleSubmit = async e => {
@@ -64,9 +66,21 @@ export default class App extends Component {
   };
 
   handleModal = e => {
+    if (!this.state.selected.url) {
+      const targetURL = e.target.dataset.large;
+      const targetALT = e.target.alt;
+      this.setState(prevState => {
+        return {
+          modalOpen: !prevState.modalOpen,
+          selected: { url: targetURL, alt: targetALT },
+        };
+      });
+      return;
+    }
     this.setState(prevState => {
       return {
         modalOpen: !prevState.modalOpen,
+        selected: {},
       };
     });
   };
@@ -74,6 +88,13 @@ export default class App extends Component {
   render() {
     return (
       <div className={css.App}>
+        {this.state.modalOpen && (
+          <Modal
+            url={this.state.selected.url}
+            alt={this.state.selected.alt}
+            onModal={this.handleModal}
+          />
+        )}
         <Searchbar onSearch={this.handleSubmit} />
         <ImageGallery
           images={this.state.images}
